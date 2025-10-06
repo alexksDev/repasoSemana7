@@ -1,0 +1,292 @@
+Welcome to the Week07 API Tester!
+
+You have selected the following options:
+-u: url: http://localhost:8080
+-s: stepped: false
+-n: includeNiceToHave: false
+
+23:06:14.937 [main] INFO  utec.apitester.Main - 🧹 Cleaning up
+23:06:15.162 [main] INFO  utec.apitester.Main - 🧹 Cleaned
+
+====================================
+🗂️ Group: CREATE_FLIGHT (0.200000)
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] FLIGHT_MANDATORY_FIELDS
+Description: Test if all mandatory fields are validated (airlineName, flightNumber, estDepartureTime, estArrivalTime, availableSeats)
+Request: POST /flights/create
+  {}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_NUMBER_FORMAT
+Description: Test if the flight number format is validated. Expected RegEx: ^[A-Z]{2,3}[0-9]{3}$
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-10T19:00:00Z","estDepartureTime":"2025-10-10T14:00:00Z","availableSeats":1,"airlineName":"American Airlines","flightNumber":"_"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_AVAILABLE_SEATS_MORE_THAN_ZERO
+Description: Test if the available seats are more than zero
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-10T19:00:00Z","estDepartureTime":"2025-10-10T14:00:00Z","availableSeats":0,"airlineName":"American Airlines","flightNumber":"AA448"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_SUCCESS_AA448
+Description: Test if the flight can be created
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-08T19:00:00Z","estDepartureTime":"2025-10-08T12:00:00Z","availableSeats":1,"airlineName":"American Airlines","flightNumber":"AA448"}
+Response Received:
+  200
+  {"id": "2"}
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 201, Actual: 200.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_UNIQUE_AA448
+Description: Test if the flight number is unique
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-05T05:00:00Z","estDepartureTime":"2025-10-05T05:00:00Z","availableSeats":1,"airlineName":"XX","flightNumber":"AA448"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_SUCCESS_AA754
+Description: Test if the flight can be created
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-10T19:00:00Z","estDepartureTime":"2025-10-10T12:00:00Z","availableSeats":1,"airlineName":"American Airlines","flightNumber":"AA754"}
+Response Received:
+  200
+  {"id": "3"}
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 201, Actual: 200.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_SUCCESS_LA876
+Description: Test if the flight can be created
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-08T20:00:00Z","estDepartureTime":"2025-10-08T14:00:00Z","availableSeats":1,"airlineName":"LATAM Airlines","flightNumber":"LA876"}
+Response Received:
+  200
+  {"id": "4"}
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 201, Actual: 200.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_SUCCESS_DL116
+Description: Test if the flight can be created
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-14T00:00:00Z","estDepartureTime":"2025-10-13T13:00:00Z","availableSeats":1,"airlineName":"Delta Airlines","flightNumber":"DL116"}
+Response Received:
+  200
+  {"id": "5"}
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 201, Actual: 200.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_SUCCESS_PAST_NK962
+Description: Test if the flight can be created
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-01T00:00:00Z","estDepartureTime":"2025-09-30T13:00:00Z","availableSeats":1,"airlineName":"Spirit Airlines","flightNumber":"NK962"}
+Response Received:
+  200
+  {"id": "6"}
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 201, Actual: 200.
+
+
+❌ Group Succeeded: 0 of 9
+😞 POINTS WON: 0.0
+
+====================================
+🗂️ Group: REGISTER_USER (0.200000)
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] REGISTER_MANDATORY_FIELDS
+Description: Test if all mandatory fields are validated (firstName, lastName, email, password)
+Request: POST /users/register
+  {}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] TEST_EMAIL_FORMAT
+Description: Test if the email format is validated
+Request: POST /users/register
+  {"firstName":"John","lastName":"Doe","password":"1","email":"_"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] TEST_FIRST_NAME_FORMAT
+Description: Test if the first name format is validated
+Request: POST /users/register
+  {"firstName":"","lastName":"X","password":"1","email":"johndoe@gmail.com"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] TEST_LAST_NAME_FORMAT
+Description: Test if the last name format is validated
+Request: POST /users/register
+  {"firstName":"X","lastName":"","password":"1","email":"johndoe@gmail.com"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] TEST_PASSWORD_FORMAT
+Description: Test if the password format is validated
+Request: POST /users/register
+  {"firstName":"John","lastName":"Doe","password":"","email":"johndoe@gmail.com"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] TEST_SUCCESS_JOHN_DOE
+Description: Test if the user can be registered
+Request: POST /users/register
+  {"firstName":"John","lastName":"Doe","password":"1234ABCD","email":"johndoe@gmail.com"}
+Response Received:
+  200
+  {"id": "2"}
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 201, Actual: 200.
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] TEST_UNIQUE_JOHN_DOE
+Description: Test if the email is unique
+Request: POST /users/register
+  {"firstName":"John","lastName":"Doe","password":"1234ABCD","email":"johndoe@gmail.com"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+
+❌ Group Succeeded: 0 of 7
+😞 POINTS WON: 0.0
+🫥 (Skipped) Group: REGISTER_USER_NICE_TO_HAVE
+
+====================================
+🗂️ Group: AUTH_LOGIN (0.500000)
+
+------------------------------------
+📌 Step: [AUTH_LOGIN/MUST-HAVE] LOGIN_MANDATORY_FIELDS
+Description: Test if all mandatory fields are validated (email, password)
+Request: POST /auth/login
+  {}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [AUTH_LOGIN/MUST-HAVE] TEST_UNKNOWN_USER
+Description: Test if unknown user is validated
+Request: POST /auth/login
+  {"password":"whatever","email":"whatever"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [AUTH_LOGIN/MUST-HAVE] TEST_WRONG_PASSWORD
+Description: Test if wrong password is validated
+Request: POST /auth/login
+  {"password":"whatever","email":"johndoe@gmail.com"}
+Response Received:
+  403
+  
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 403.
+
+------------------------------------
+📌 Step: [AUTH_LOGIN/MUST-HAVE] LOGIN_SUCCESS
+Description: Test if login is successful and a token is generated
+Request: POST /auth/login
+  {"password":"1234ABCD","email":"johndoe@gmail.com"}
+Response Received:
+  200
+  {"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huZG9lQGdtYWlsLmNvbSIsImlhdCI6MTc1OTcyMzU3NSwiZXhwIjoxNzU5ODA5OTc1fQ.qpfxOXLjokP_iTE_-C0u7g3MOoSnZ4olas_PS3BJ2Lhp8j5k7yiHJW35Xp-S0EIRnT85QveSHWLv1yx7JA9Y5Q"}
+
+Result: ➕ SUCCESS
+
+
+❌ Group Succeeded: 1 of 4
+😞 POINTS WON: 0.0
+
+====================================
+🗂️ Group: SEARCH_FLIGHT (0.400000)
+
+ERROR JSONObject["items"] not found.
+org.json.JSONException: JSONObject["items"] not found.
+	at org.json.JSONObject.get(JSONObject.java:635)
+	at org.json.JSONObject.getJSONArray(JSONObject.java:828)
+	at utec.apitester.StepsInitializer.lambda$addGroupSearchFlight$8(StepsInitializer.java:408)
+	at utec.apitester.StepExecutor.execute(StepExecutor.java:67)
+	at utec.apitester.Main.start(Main.java:68)
+	at utec.cli.commands.TestCommand.run(TestCommand.java:38)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2026)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at utec.Application.main(Application.java:16)
+Finished

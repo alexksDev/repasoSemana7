@@ -32,7 +32,7 @@ public class FlightController {
     public ResponseEntity<NewIdDTO> create(@Valid @RequestBody NewFlightRequestDTO newFlightRequestDTO) {
         Flight flight = modelMapper.map(newFlightRequestDTO, Flight.class);
         Flight savedFlight = flightService.createFlight(flight);
-        return ResponseEntity.ok(new NewIdDTO(String.valueOf(savedFlight.getId())));
+        return ResponseEntity.status(201).body(new NewIdDTO(String.valueOf(savedFlight.getId())));
     }
 
     @GetMapping("/{id}")
@@ -68,7 +68,7 @@ public class FlightController {
                     return dto;
                 })
                 .collect(Collectors.toList());
-        response.setFlights(flightDTOs);
+        response.setItems(flightDTOs);
 
         return ResponseEntity.ok(response);
     }
@@ -85,6 +85,24 @@ public class FlightController {
             @AuthenticationPrincipal User user) {
         Long flightId = Long.parseLong(requestDTO.getFlightId());
         Booking booking = bookingService.bookFlight(flightId, user);
-        return ResponseEntity.ok(new NewIdDTO(String.valueOf(booking.getId())));
+        return ResponseEntity.status(200).body(new NewIdDTO(String.valueOf(booking.getId())));
+    }
+
+    @GetMapping("/book/{id}")
+    public ResponseEntity<BookingResponseDTO> getBookingById(@PathVariable Long id) {
+        Booking booking = bookingService.findById(id);
+
+        BookingResponseDTO response = new BookingResponseDTO();
+        response.setId(String.valueOf(booking.getId()));
+        response.setBookingDate(booking.getBookingDate());
+        response.setFlightId(String.valueOf(booking.getFlight().getId()));
+        response.setFlightNumber(booking.getFlight().getFlightNumber());
+        response.setCustomerId(String.valueOf(booking.getCustomer().getId()));
+        response.setCustomerFirstName(booking.getCustomer().getFirstName());
+        response.setCustomerLastName(booking.getCustomer().getLastName());
+        response.setEstDepartureTime(booking.getFlight().getEstDepartureTime());
+        response.setEstArrivalTime(booking.getFlight().getEstArrivalTime());
+
+        return ResponseEntity.ok(response);
     }
 }

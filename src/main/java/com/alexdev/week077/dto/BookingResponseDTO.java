@@ -13,4 +13,6 @@ public class BookingResponseDTO {
     private String customerId;
     private String customerFirstName;
     private String customerLastName;
+    private LocalDateTime estDepartureTime;
+    private LocalDateTime estArrivalTime;
 }

@@ -36,10 +36,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/register", "/auth/login", "/flights/create",
-                                       "/flights/create-many", "/cleanup", "/flights/{id}",
-                                       "/users/{id}", "/flight/book/{id}").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

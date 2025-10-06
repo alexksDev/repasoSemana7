@@ -15,7 +15,7 @@ public class NewFlightRequestDTO {
     private String airlineName;
 
     @NotBlank(message = "Flight number is required")
-    @Pattern(regexp = "^[A-Z0-9]{1,6}$", message = "Flight number must be A-Z 0-9, up to 6 characters")
+    @Pattern(regexp = "^[A-Z]{2,3}[0-9]{3}$", message = "Flight number must match format: 2-3 letters followed by 3 digits")
     private String flightNumber;
 
     @NotNull(message = "Estimated departure time is required")

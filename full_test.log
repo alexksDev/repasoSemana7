@@ -1,0 +1,309 @@
+Welcome to the Week07 API Tester!
+
+You have selected the following options:
+-u: url: http://localhost:8080
+-s: stepped: false
+-n: includeNiceToHave: false
+
+23:11:11.040 [main] INFO  utec.apitester.Main - 🧹 Cleaning up
+23:11:11.181 [main] INFO  utec.apitester.Main - 🧹 Cleaned
+
+====================================
+🗂️ Group: CREATE_FLIGHT (0.200000)
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_NUMBER_FORMAT
+Description: Test if the flight number format is validated. Expected RegEx: ^[A-Z]{2,3}[0-9]{3}$
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-10T19:00:00Z","estDepartureTime":"2025-10-10T14:00:00Z","availableSeats":1,"airlineName":"American Airlines","flightNumber":"912AA"}
+Response Received:
+  201
+  {"id": "24"}
+
+Result: ➖ FAILURE ->
+HTTP Status Mismatch. Expected: 400, Actual: 201.
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_SUCCESS_AA448
+Description: Test if the flight can be created
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-08T19:00:00Z","estDepartureTime":"2025-10-08T12:00:00Z","availableSeats":1,"airlineName":"American Airlines","flightNumber":"AA448"}
+Response Received:
+  201
+  {"id": "25"}
+
+Result: ➕ SUCCESS
+
+------------------------------------
+📌 Step: [CREATE_FLIGHT/MUST-HAVE] TEST_SUCCESS_AA754
+Description: Test if the flight can be created
+Request: POST /flights/create
+  {"estArrivalTime":"2025-10-10T19:00:00Z","estDepartureTime":"2025-10-10T12:00:00Z","availableSeats":1,"airlineName":"American Airlines","flightNumber":"AA754"}
+Response Received:
+  201
+  {"id": "26"}
+
+Result: ➕ SUCCESS
+
+
+❌ Group Succeeded: 8 of 9
+😞 POINTS WON: 0.0
+
+====================================
+🗂️ Group: REGISTER_USER (0.200000)
+
+------------------------------------
+📌 Step: [REGISTER_USER/MUST-HAVE] TEST_SUCCESS_JOHN_DOE
+Description: Test if the user can be registered
+Request: POST /users/register
+  {"firstName":"John","lastName":"Doe","password":"1234ABCD","email":"johndoe@gmail.com"}
+Response Received:
+  201
+  {"id": "6"}
+
+Result: ➕ SUCCESS
+
+
+✅ Group Succeeded: 7 of 7
+🎉 POINTS WON: 0.20
+🫥 (Skipped) Group: REGISTER_USER_NICE_TO_HAVE
+
+====================================
+🗂️ Group: AUTH_LOGIN (0.500000)
+
+------------------------------------
+📌 Step: [AUTH_LOGIN/MUST-HAVE] LOGIN_SUCCESS
+Description: Test if login is successful and a token is generated
+Request: POST /auth/login
+  {"password":"1234ABCD","email":"johndoe@gmail.com"}
+Response Received:
+  200
+  {"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huZG9lQGdtYWlsLmNvbSIsImlhdCI6MTc1OTcyMzg3MSwiZXhwIjoxNzU5ODEwMjcxfQ.XkFgQ1UPeruxW-XfsXGAvqrcOXkI1jd79LXDopy6Kc6TEJ9prOoxt7uWR2Mslvhee6ZfGsVcUW1agvXjnYEaVA"}
+
+Result: ➕ SUCCESS
+
+
+✅ Group Succeeded: 4 of 4
+🎉 POINTS WON: 0.50
+
+====================================
+🗂️ Group: SEARCH_FLIGHT (0.400000)
+
+------------------------------------
+📌 Step: [SEARCH_FLIGHT/MUST-HAVE] NUMBER_EXACT_AA448
+Description: Search for flight number exact AA448
+Request: GET /flights/search?flightNumber=AA448
+  
+Response Received:
+  200
+  {"items": [{
+  "estArrivalTime": "2025-10-08T19:00:00",
+  "estDepartureTime": "2025-10-08T12:00:00",
+  "availableSeats": 1,
+  "id": "25",
+  "airlineName": "American Airlines",
+  "flightNumber": "AA448"
+}]}
+
+Result: ➕ SUCCESS
+
+------------------------------------
+📌 Step: [SEARCH_FLIGHT/MUST-HAVE] NUMBER_PARTIAL_AA
+Description: Search for flight number partial AA
+Request: GET /flights/search?flightNumber=AA
+  
+Response Received:
+  200
+  {"items": [
+  {
+    "estArrivalTime": "2025-10-10T19:00:00",
+    "estDepartureTime": "2025-10-10T14:00:00",
+    "availableSeats": 1,
+    "id": "24",
+    "airlineName": "American Airlines",
+    "flightNumber": "912AA"
+  },
+  {
+    "estArrivalTime": "2025-10-08T19:00:00",
+    "estDepartureTime": "2025-10-08T12:00:00",
+    "availableSeats": 1,
+    "id": "25",
+    "airlineName": "American Airlines",
+    "flightNumber": "AA448"
+  },
+  {
+    "estArrivalTime": "2025-10-10T19:00:00",
+    "estDepartureTime": "2025-10-10T12:00:00",
+    "availableSeats": 1,
+    "id": "26",
+    "airlineName": "American Airlines",
+    "flightNumber": "AA754"
+  }
+]}
+
+Result: ➖ FAILURE ->
+Expected Result:
+{ items: [
+    { id, flightNumber: AA448, ...  },
+    { id, flightNumber: AA754, ...  },
+  ] }
+
+
+------------------------------------
+📌 Step: [SEARCH_FLIGHT/MUST-HAVE] AIRLINE_EXACT_AA
+Description: Search airline exact American Airlines
+Request: GET /flights/search?airlineName=American%20Airlines
+  
+Response Received:
+  200
+  {"items": [
+  {
+    "estArrivalTime": "2025-10-10T19:00:00",
+    "estDepartureTime": "2025-10-10T14:00:00",
+    "availableSeats": 1,
+    "id": "24",
+    "airlineName": "American Airlines",
+    "flightNumber": "912AA"
+  },
+  {
+    "estArrivalTime": "2025-10-08T19:00:00",
+    "estDepartureTime": "2025-10-08T12:00:00",
+    "availableSeats": 1,
+    "id": "25",
+    "airlineName": "American Airlines",
+    "flightNumber": "AA448"
+  },
+  {
+    "estArrivalTime": "2025-10-10T19:00:00",
+    "estDepartureTime": "2025-10-10T12:00:00",
+    "availableSeats": 1,
+    "id": "26",
+    "airlineName": "American Airlines",
+    "flightNumber": "AA754"
+  }
+]}
+
+Result: ➖ FAILURE ->
+Expected Result:
+{ items: [
+    { id, flightNumber: AA448, ...  },
+    { id, flightNumber: AA754, ...  },
+  ] }
+
+
+------------------------------------
+📌 Step: [SEARCH_FLIGHT/MUST-HAVE] AIRLINE_PARTIAL_AMERICAN
+Description: Search airline partial American
+Request: GET /flights/search?airlineName=American
+  
+Response Received:
+  200
+  {"items": [
+  {
+    "estArrivalTime": "2025-10-10T19:00:00",
+    "estDepartureTime": "2025-10-10T14:00:00",
+    "availableSeats": 1,
+    "id": "24",
+    "airlineName": "American Airlines",
+    "flightNumber": "912AA"
+  },
+  {
+    "estArrivalTime": "2025-10-08T19:00:00",
+    "estDepartureTime": "2025-10-08T12:00:00",
+    "availableSeats": 1,
+    "id": "25",
+    "airlineName": "American Airlines",
+    "flightNumber": "AA448"
+  },
+  {
+    "estArrivalTime": "2025-10-10T19:00:00",
+    "estDepartureTime": "2025-10-10T12:00:00",
+    "availableSeats": 1,
+    "id": "26",
+    "airlineName": "American Airlines",
+    "flightNumber": "AA754"
+  }
+]}
+
+Result: ➖ FAILURE ->
+Expected Result:
+{ items: [
+    { id, flightNumber: AA448, ...  },
+    { id, flightNumber: AA754, ...  },
+  ] }
+
+
+
+❌ Group Succeeded: 1 of 4
+😞 POINTS WON: 0.0
+🫥 (Skipped) Group: SEARCH_FLIGHT_NICE_TO_HAVE
+
+====================================
+🗂️ Group: BOOK_FLIGHT (0.500000)
+
+------------------------------------
+📌 Step: [BOOK_FLIGHT/MUST-HAVE] TEST_SUCCESS_BOOK_FLIGHT_AA448
+Description: Test successful booking on flight AA448 by John Doe
+Request: POST /flights/book
+  {"flightId":"25"}
+Response Received:
+  200
+  {"id": "5"}
+
+Result: ➕ SUCCESS
+
+------------------------------------
+📌 Step: [BOOK_FLIGHT/MUST-HAVE] READ_SUCCESS_BOOK_FLIGHT_AA448
+Description: Read successful booking on flight AA448 by John Doe
+Request: GET /flights/book/5
+  
+Response Received:
+  200
+  {
+  "customerFirstName": "John",
+  "customerId": "6",
+  "flightId": "25",
+  "bookingDate": "2025-10-05T23:11:11.834497",
+  "customerLastName": "Doe",
+  "id": "5",
+  "flightNumber": "AA448"
+}
+
+Result: ➖ FAILURE ->
+Expected Result: { id, bookingDate, flightId, flightNumber, customerId, customerFirstName, customerLastName, estDepartureTime, estArrivalTime }
+
+------------------------------------
+📌 Step: [BOOK_FLIGHT/MUST-HAVE] TEST_OVERBOOK_FLIGHT_AA448
+Description: Test overbooking on flight AA448
+Request: POST /flights/book
+  {"flightId":"25"}
+Response Received:
+  400
+  {"error": "No available seats"}
+
+Result: ➕ SUCCESS
+
+
+❌ Group Succeeded: 2 of 3
+😞 POINTS WON: 0.0
+🫥 (Skipped) Group: BOOK_FLIGHT_NICE_TO_HAVE
+🫥 (Skipped) Group: CREATE_MANY_FLIGHT_NICE_TO_HAVE
+🫥 (Skipped) Group: REVIEW_EMAIL_NOTIFICATION
+
+
+====================================
+========== GRAND TOTAL =============
+====================================
+  🗂️ Must Have Groups: 5
+  🗂️ Nice To Have Groups: 0
+  🗂️ Total Groups: 5
+  ❌ Must Have Succeeded: 11 of 16
+  ✅ Nice To Have Succeeded: 0 of 0
+  ❌ Total Succeeded: 11 of 16
+  🧮 Must Have Score: 0.70 of 1.80
+  🧮 Nice To Have Score: 0.00 of 1.20
+  🧮 FINAL SCORE: 0.70
+
+====================================
+
+Finished

@@ -22,7 +22,7 @@ public class UserController {
     public ResponseEntity<NewIdDTO> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
         User user = modelMapper.map(registerUserDTO, User.class);
         User savedUser = userService.register(user);
-        return ResponseEntity.ok(new NewIdDTO(String.valueOf(savedUser.getId())));
+        return ResponseEntity.status(201).body(new NewIdDTO(String.valueOf(savedUser.getId())));
     }
 
     @GetMapping("/{id}")

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class FlightSearchResponseDTO {
-    private List<FlightDTO> flights;
+    private List<FlightDTO> items;
 
     @Data
     public static class FlightDTO {
