@@ -5,8 +5,8 @@ import com.alexdev.week077.entity.Flight;
 import com.alexdev.week077.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class FlightBatchService {
     private final FlightRepository flightRepository;
     private final ModelMapper modelMapper;
 
-    @Async
+    @Transactional
     public void createManyFlights(List<NewFlightRequestDTO> flightRequests) {
         for (NewFlightRequestDTO request : flightRequests) {
             try {

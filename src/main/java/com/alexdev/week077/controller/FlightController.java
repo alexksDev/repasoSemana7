@@ -49,9 +49,9 @@ public class FlightController {
             @RequestParam(required = false) String estDepartureTimeTo) {
 
         LocalDateTime from = estDepartureTimeFrom != null && !estDepartureTimeFrom.isEmpty()
-                ? LocalDateTime.parse(estDepartureTimeFrom) : null;
+                ? LocalDateTime.parse(estDepartureTimeFrom.replace("Z", "")) : null;
         LocalDateTime to = estDepartureTimeTo != null && !estDepartureTimeTo.isEmpty()
-                ? LocalDateTime.parse(estDepartureTimeTo) : null;
+                ? LocalDateTime.parse(estDepartureTimeTo.replace("Z", "")) : null;
 
         List<Flight> flights = flightService.searchFlights(flightNumber, airlineName, from, to);
 
@@ -76,7 +76,7 @@ public class FlightController {
     @PostMapping("/create-many")
     public ResponseEntity<NewFlightManyResponseDTO> createMany(@Valid @RequestBody NewFlightManyRequestDTO requestDTO) {
         flightBatchService.createManyFlights(requestDTO.getFlights());
-        return ResponseEntity.ok(new NewFlightManyResponseDTO("Processing flights"));
+        return ResponseEntity.status(201).body(new NewFlightManyResponseDTO("Processing flights"));
     }
 
     @PostMapping("/book")

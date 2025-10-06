@@ -19,7 +19,11 @@ public class BookingEmailListener {
     public void handleBookingCreated(BookingCreatedEvent event) {
         Booking booking = event.getBooking();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+        String estDepartureTime = booking.getFlight().getEstDepartureTime().format(dateTimeFormatter);
+        String estArrivalTime = booking.getFlight().getEstArrivalTime().format(dateTimeFormatter);
+        String bookingDate = booking.getBookingDate().toString();
 
         String emailContent = String.format(
             "Hello %s %s,\n\n" +
@@ -31,9 +35,9 @@ public class BookingEmailListener {
             booking.getCustomer().getFirstName(),
             booking.getCustomer().getLastName(),
             booking.getFlight().getFlightNumber(),
-            booking.getFlight().getEstDepartureTime().format(formatter),
-            booking.getFlight().getEstArrivalTime().format(formatter),
-            booking.getBookingDate().format(formatter)
+            estDepartureTime,
+            estArrivalTime,
+            bookingDate
         );
 
         String fileName = "flight_booking_email_" + booking.getId() + ".txt";
