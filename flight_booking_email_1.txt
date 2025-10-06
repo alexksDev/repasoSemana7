@@ -1,0 +1,10 @@
+Hello John Doe,
+
+Your booking was successful! 
+
+The booking is for flight DL100 with departure date of 2025-12-01T10:00:00Z and arrival date of 2025-12-01T14:00:00Z.
+
+The booking was registered at 2025-10-05T23:03:35Z.
+
+Bon Voyage!
+Fly Away Travel
